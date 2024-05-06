@@ -76,6 +76,8 @@
         INTO @rs_data-postaladdress-cityname-content.
     ELSEIF ls_address-CityName IS NOT INITIAL.
       rs_data-postaladdress-cityname-content = ls_address-CityName.
+    ELSE.
+      rs_data-postaladdress-cityname-content = '...'.
     ENDIF.
     IF ls_address-CityName IS NOT INITIAL .
       rs_data-postaladdress-citysubdivisionname-content = ls_address-CityName.
