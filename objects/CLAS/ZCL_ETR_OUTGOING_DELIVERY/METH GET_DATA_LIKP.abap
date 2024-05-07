@@ -27,7 +27,7 @@
            PartnerFunction AS parvw,
            AddressID AS adrnr,
            Customer AS kunnr
-      FROM I_SDDocumentItemPartner
+      FROM I_SDDocumentItemPartner WITH PRIVILEGED ACCESS AS vbpa
       WHERE SDDocument = @ms_document-belnr
       INTO TABLE @ms_outdel_data-vbpa.
 

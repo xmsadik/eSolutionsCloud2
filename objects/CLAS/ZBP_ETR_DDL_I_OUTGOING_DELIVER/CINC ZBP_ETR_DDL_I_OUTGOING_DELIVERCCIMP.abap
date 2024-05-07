@@ -371,6 +371,123 @@ ENDCLASS.
 CLASS lsc_ZETR_DDL_I_OUTGOING_DELIVE IMPLEMENTATION.
 
   METHOD save_modified.
+    DATA: lt_deleted TYPE RANGE OF sysuuid_c22.
+    IF delete-outgoingdeliveries IS NOT INITIAL.
+      SELECT *
+        FROM zetr_t_ogdlv
+        FOR ALL ENTRIES IN @delete-outgoingdeliveries
+        WHERE docui = @delete-outgoingdeliveries-documentuuid
+        INTO TABLE @DATA(lt_deliveries).
+      LOOP AT lt_deliveries INTO DATA(ls_delivery).
+        IF ls_delivery-stacd <> '' AND ls_delivery-stacd <> '2'.
+          APPEND VALUE #( %msg = new_message( id       = 'ZETR_COMMON'
+                                              number   = '067'
+                                              severity = if_abap_behv_message=>severity-error ) ) TO reported-outgoingdeliveries.
+        ELSE.
+          APPEND VALUE #( sign = 'I' option = 'EQ' low = ls_delivery-docui ) TO lt_deleted.
+        ENDIF.
+      ENDLOOP.
+      IF lt_deleted IS NOT INITIAL.
+        DELETE FROM zetr_t_ogdlv
+          WHERE docui IN @lt_deleted.
+        DELETE FROM zetr_t_arcd
+          WHERE docui IN @lt_deleted.
+      ENDIF.
+    ENDIF.
+    IF update-outgoingdeliveries IS NOT INITIAL.
+      SELECT *
+        FROM zetr_t_ogdlv
+        FOR ALL ENTRIES IN @update-outgoingdeliveries
+        WHERE docui = @update-outgoingdeliveries-documentuuid
+        INTO TABLE @lt_deliveries.
+      SORT lt_deliveries BY docui.
+
+      DATA lt_logs TYPE zetr_tt_log_data.
+      LOOP AT update-outgoingdeliveries INTO DATA(ls_update).
+        READ TABLE lt_deliveries ASSIGNING FIELD-SYMBOL(<ls_delivery>) WITH KEY docui = ls_update-documentuuid BINARY SEARCH.
+        CHECK sy-subrc = 0.
+        IF ls_update-%control-aliass = if_abap_behv=>mk-on.
+          <ls_delivery>-aliass = ls_update-aliass.
+        ENDIF.
+        IF ls_update-%control-profileid = if_abap_behv=>mk-on.
+          <ls_delivery>-prfid = ls_update-profileid.
+        ENDIF.
+        IF ls_update-%control-deliverytype = if_abap_behv=>mk-on.
+          <ls_delivery>-dlvty = ls_update-deliverytype.
+        ENDIF.
+        IF ls_update-%control-serialprefix = if_abap_behv=>mk-on.
+          <ls_delivery>-serpr = ls_update-serialprefix.
+        ENDIF.
+        IF ls_update-%control-xslttemplate = if_abap_behv=>mk-on.
+          <ls_delivery>-xsltt = ls_update-xslttemplate.
+        ENDIF.
+        IF ls_update-%control-printed = if_abap_behv=>mk-on.
+          <ls_delivery>-prntd = ls_update-printed.
+        ENDIF.
+        IF ls_update-%control-collectitems = if_abap_behv=>mk-on.
+          <ls_delivery>-itmcl = ls_update-collectitems.
+        ENDIF.
+        IF ls_update-%control-DeliveryNote = if_abap_behv=>mk-on.
+          <ls_delivery>-dnote = ls_update-DeliveryNote.
+        ENDIF.
+        IF ls_update-%control-Sender = if_abap_behv=>mk-on.
+          <ls_delivery>-sndus = ls_update-Sender.
+        ENDIF.
+        IF ls_update-%control-SendDate = if_abap_behv=>mk-on.
+          <ls_delivery>-snddt = ls_update-SendDate.
+        ENDIF.
+        IF ls_update-%control-SendTime = if_abap_behv=>mk-on.
+          <ls_delivery>-sndtm = ls_update-SendTime.
+        ENDIF.
+        IF ls_update-%control-DeliveryUUID = if_abap_behv=>mk-on.
+          <ls_delivery>-dlvui = ls_update-DeliveryUUID.
+        ENDIF.
+        IF ls_update-%control-deliveryid = if_abap_behv=>mk-on.
+          <ls_delivery>-dlvno = ls_update-deliveryid.
+        ENDIF.
+        IF ls_update-%control-IntegratorDocumentID = if_abap_behv=>mk-on.
+          <ls_delivery>-dlvii = ls_update-IntegratorDocumentID.
+        ENDIF.
+        IF ls_update-%control-EnvelopeUUID = if_abap_behv=>mk-on.
+          <ls_delivery>-envui = ls_update-EnvelopeUUID.
+        ENDIF.
+        IF ls_update-%control-StatusCode = if_abap_behv=>mk-on.
+          <ls_delivery>-stacd = ls_update-StatusCode.
+        ENDIF.
+        IF ls_update-%control-StatusDetail = if_abap_behv=>mk-on.
+          <ls_delivery>-staex = ls_update-StatusDetail.
+        ENDIF.
+        IF ls_update-%control-Response = if_abap_behv=>mk-on.
+          <ls_delivery>-resst = ls_update-Response.
+        ENDIF.
+        IF ls_update-%control-TRAStatusCode = if_abap_behv=>mk-on.
+          <ls_delivery>-radsc = ls_update-TRAStatusCode.
+        ENDIF.
+        IF ls_update-%control-Resendable = if_abap_behv=>mk-on.
+          <ls_delivery>-rsend = ls_update-Resendable.
+        ENDIF.
+        IF ls_update-%control-PrintedDocumentNumber = if_abap_behv=>mk-on.
+          <ls_delivery>-pdnum = ls_update-PrintedDocumentNumber.
+        ENDIF.
+        IF ls_update-%control-PrintedDocumentDate = if_abap_behv=>mk-on.
+          <ls_delivery>-pddat = ls_update-PrintedDocumentDate.
+        ENDIF.
+        IF ls_update-%control-ResponseUUID = if_abap_behv=>mk-on.
+          <ls_delivery>-ruuid = ls_update-ResponseUUID.
+        ENDIF.
+        IF ls_update-%control-ItemResponse = if_abap_behv=>mk-on.
+          <ls_delivery>-itmrs = ls_update-ItemResponse.
+        ENDIF.
+        APPEND INITIAL LINE TO lt_logs ASSIGNING FIELD-SYMBOL(<ls_log>).
+        <ls_log>-docui = ls_update-documentuuid.
+        <ls_log>-logcd = zcl_etr_regulative_log=>mc_log_codes-updated.
+        <ls_log>-uname = sy-uname.
+        GET TIME STAMP FIELD DATA(lv_timestamp).
+        CONVERT TIME STAMP lv_timestamp TIME ZONE space INTO DATE <ls_log>-datum TIME <ls_log>-uzeit.
+      ENDLOOP.
+      MODIFY zetr_t_ogdlv FROM TABLE @lt_deliveries.
+      zcl_etr_regulative_log=>create( lt_logs ).
+    ENDIF.
   ENDMETHOD.
 
   METHOD cleanup_finalize.

@@ -231,7 +231,6 @@ CLASS zcl_etr_outgoing_delivery DEFINITION
     METHODS ubl_fill_partner_data
       IMPORTING
         !iv_address_number TYPE belnr_d
-        !iv_nation         TYPE abap_boolean OPTIONAL
         !iv_profile_id     TYPE zetr_e_dlprf OPTIONAL
         !iv_tax_office     TYPE zetr_e_tax_office OPTIONAL
         !iv_tax_id         TYPE zetr_e_taxid OPTIONAL
