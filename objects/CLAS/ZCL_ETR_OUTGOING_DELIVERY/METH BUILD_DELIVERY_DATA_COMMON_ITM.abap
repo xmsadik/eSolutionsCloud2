@@ -23,7 +23,8 @@
       <ls_deilvery_line>-item-name-content = ls_delivery_items-arktx.
       <ls_deilvery_line>-item-description-content = ls_delivery_items-descr.
       <ls_deilvery_line>-deliveredquantity-content = ls_delivery_items-lfimg.
-*      <ls_deilvery_line>-outstandingquantity-content = '0'.
+      <ls_deilvery_line>-outstandingquantity-content = '0'.
+      APPEND INITIAL LINE TO <ls_deilvery_line>-outstandingreason.
       SELECT SINGLE unitc
         FROM zetr_t_untmc
         WHERE meins = @ls_delivery_items-vrkme
