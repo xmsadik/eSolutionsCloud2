@@ -1,5 +1,5 @@
   METHOD build_delivery_data_likp.
-    ms_outdel_data = get_data_likp( iv_vbeln = ms_document-belnr ).
+    get_data_likp( iv_vbeln = ms_document-belnr ).
     build_delivery_data_likp_head( ).
     build_delivery_data_likp_ref( ).
     build_delivery_data_likp_party( ).

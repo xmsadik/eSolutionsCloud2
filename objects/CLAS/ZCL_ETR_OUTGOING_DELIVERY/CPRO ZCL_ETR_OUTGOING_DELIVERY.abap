@@ -52,15 +52,11 @@
     METHODS collect_items_mkpf .
     METHODS get_data_likp
       IMPORTING
-        !iv_vbeln      TYPE vbeln_vl
-      RETURNING
-        VALUE(rs_data) TYPE mty_outdel_data .
+        !iv_vbeln      TYPE vbeln_vl.
     METHODS get_data_mkpf
       IMPORTING
         !iv_mblnr      TYPE mblnr
-        !iv_mjahr      TYPE mjahr
-      RETURNING
-        VALUE(rs_data) TYPE mty_goodsmvmt_data .
+        !iv_mjahr      TYPE mjahr.
     METHODS build_delivery_data_common_itm
       RAISING
         zcx_etr_regulative_exception .

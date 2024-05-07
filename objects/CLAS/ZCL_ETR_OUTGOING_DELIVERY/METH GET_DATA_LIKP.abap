@@ -47,6 +47,7 @@
 
     READ TABLE ms_outdel_data-vbpa INTO DATA(ls_vbpa) WITH TABLE KEY by_parvw COMPONENTS Parvw = 'AG'.
     IF sy-subrc = 0.
+      ms_outdel_data-address_number = ls_vbpa-adrnr.
       SELECT SINGLE TaxNumber1 AS stcd1,
                     TaxNumber2 AS stcd2,
                     TaxNumber3 AS stcd3,
@@ -56,10 +57,5 @@
         INTO @DATA(ls_partner_data).
       ms_outdel_data-taxid = COND #( WHEN ls_partner_data-stcd3 IS NOT INITIAL THEN ls_partner_data-stcd3 ELSE ls_partner_data-stcd2 ).
       ms_outdel_data-tax_office = ls_partner_data-stcd1.
-    ENDIF.
-
-    READ TABLE ms_outdel_data-vbpa INTO ls_vbpa WITH TABLE KEY by_parvw COMPONENTS Parvw = 'AG'.
-    IF sy-subrc = 0.
-      ms_outdel_data-address_number = ls_vbpa-adrnr.
     ENDIF.
   ENDMETHOD.
