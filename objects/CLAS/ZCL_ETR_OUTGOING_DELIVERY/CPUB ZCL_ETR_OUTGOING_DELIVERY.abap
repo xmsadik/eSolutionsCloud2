@@ -160,7 +160,7 @@ CLASS zcl_etr_outgoing_delivery DEFINITION
 
     TYPES BEGIN OF mty_vbpa.
     TYPES vbeln TYPE belnr_d.
-    TYPES posnr TYPE n LENGTH 6.
+*    TYPES posnr TYPE n LENGTH 6.
     TYPES parvw TYPE c LENGTH 2.
     TYPES adrnr TYPE c LENGTH 10.
     TYPES kunnr TYPE zetr_e_partner.
@@ -177,7 +177,8 @@ CLASS zcl_etr_outgoing_delivery DEFINITION
     TYPES t005u TYPE SORTED TABLE OF mty_t005u WITH UNIQUE KEY land1 bland.
     TYPES likp  TYPE mty_likp.
     TYPES lips  TYPE SORTED TABLE OF mty_lips WITH UNIQUE KEY posnr.
-    TYPES vbpa  TYPE SORTED TABLE OF mty_vbpa WITH UNIQUE KEY vbeln posnr parvw
+*    TYPES vbpa  TYPE SORTED TABLE OF mty_vbpa WITH UNIQUE KEY vbeln posnr parvw
+    TYPES vbpa  TYPE SORTED TABLE OF mty_vbpa WITH UNIQUE KEY vbeln parvw
                                               WITH NON-UNIQUE SORTED KEY by_parvw COMPONENTS parvw.
     TYPES vbak TYPE SORTED TABLE OF mty_vbak WITH UNIQUE KEY vbeln.
     TYPES address_number TYPE c LENGTH 10.

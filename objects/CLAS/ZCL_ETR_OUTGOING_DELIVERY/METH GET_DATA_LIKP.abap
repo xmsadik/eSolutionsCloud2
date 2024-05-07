@@ -23,11 +23,10 @@
       INTO TABLE @ms_outdel_data-lips.
 
     SELECT SDDocument AS vbeln,
-           SDDocumentItem AS posnr,
            PartnerFunction AS parvw,
            AddressID AS adrnr,
            Customer AS kunnr
-      FROM I_SDDocumentItemPartner WITH PRIVILEGED ACCESS AS vbpa
+      FROM I_SDDocumentPartner WITH PRIVILEGED ACCESS AS vbpa
       WHERE SDDocument = @ms_document-belnr
       INTO TABLE @ms_outdel_data-vbpa.
 
