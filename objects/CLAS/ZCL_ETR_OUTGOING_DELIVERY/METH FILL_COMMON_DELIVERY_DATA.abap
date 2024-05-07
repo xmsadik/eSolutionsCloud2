@@ -14,6 +14,7 @@
 
     ms_delivery_ubl-ublversionid-content = '2.1'.
     ms_delivery_ubl-customizationid-content = 'TR1.2.1'.
+    ms_delivery_ubl-copyindicator-content = 'false'.
     ms_delivery_ubl-profileid-content = SWITCH #( ms_document-prfid WHEN 'TEMEL' THEN ms_document-prfid && 'IRSALIYE' ELSE ms_document-prfid ).
     ms_delivery_ubl-despatchadvicetypecode-content = ms_document-dlvty.
     ms_delivery_ubl-uuid-content = ms_document-dlvui.
