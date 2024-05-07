@@ -3,7 +3,9 @@
           lv_number_object TYPE cl_numberrange_runtime=>nr_object,
           lv_gjahr         TYPE gjahr,
           lv_number        TYPE cl_numberrange_runtime=>nr_number.
-    lv_gjahr = ms_document-bldat(4).
+    DATA(lv_bldat) = cl_abap_context_info=>get_system_date( ).
+    lv_gjahr = lv_bldat(4).
+*    lv_gjahr = ms_document-bldat(4).
     lv_number_object = 'ZETR_EDL'.
     SELECT SINGLE *
       FROM zetr_t_edser
@@ -28,7 +30,8 @@
             WHERE bukrs = @ms_document-bukrs
               AND dlvno LIKE @lv_invoice_no
             INTO @DATA(lv_max_date).
-          IF sy-subrc IS NOT INITIAL OR lv_max_date IS INITIAL OR lv_max_date LE ms_document-bldat.
+*          IF sy-subrc IS NOT INITIAL OR lv_max_date IS INITIAL OR lv_max_date LE ms_document-bldat.
+          IF sy-subrc IS NOT INITIAL OR lv_max_date IS INITIAL OR lv_max_date LE lv_bldat.
             TRY.
                 cl_numberrange_runtime=>number_get(
                   EXPORTING
@@ -64,7 +67,8 @@
           ENDIF.
         ENDWHILE.
       WHEN 'D'.
-        lv_days = cl_abap_context_info=>get_system_date( ) - ms_document-bldat.
+        lv_days = cl_abap_context_info=>get_system_date( ) - lv_bldat.
+*        lv_days = cl_abap_context_info=>get_system_date( ) - ms_document-bldat.
         IF lv_days >= 8.
           lv_days_num = 8.
         ELSE.
