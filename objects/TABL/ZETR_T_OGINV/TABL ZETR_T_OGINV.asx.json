@@ -1342,7 +1342,7 @@
     "KEYFLAG":"",
     "MANDATORY":"",
     "ROLLNAME":"ZETR_E_SERPR",
-    "CHECKTABLE":"ZETR_T_EISER",
+    "CHECKTABLE":"",
     "ADMINFIELD":"0",
     "INTTYPE":"C",
     "INTLEN":6,
@@ -1355,7 +1355,7 @@
     "LENG":3,
     "DECIMALS":0,
     "DOMNAME":"",
-    "SHLPORIGIN":"P",
+    "SHLPORIGIN":"",
     "TABLETYPE":"",
     "DEPTH":0,
     "COMPTYPE":"E",
@@ -1893,79 +1893,6 @@
     "ANONYMOUS":"",
     "OUTPUTSTYLE":0,
     "SRS_ID":0
-   }
-  ]
- },
- {
-  "table":"DD05S",
-  "data":
-  [
-   {
-    "TABNAME":"ZETR_T_OGINV",
-    "FIELDNAME":"SERPR",
-    "PRIMPOS":1,
-    "AS4LOCAL":"N",
-    "AS4VERS":0,
-    "FORTABLE":"ZETR_T_OGINV",
-    "FORKEY":"MANDT",
-    "FORSTRING":""
-   },
-   {
-    "TABNAME":"ZETR_T_OGINV",
-    "FIELDNAME":"SERPR",
-    "PRIMPOS":2,
-    "AS4LOCAL":"N",
-    "AS4VERS":0,
-    "FORTABLE":"ZETR_T_OGINV",
-    "FORKEY":"BUKRS",
-    "FORSTRING":""
-   },
-   {
-    "TABNAME":"ZETR_T_OGINV",
-    "FIELDNAME":"SERPR",
-    "PRIMPOS":3,
-    "AS4LOCAL":"N",
-    "AS4VERS":0,
-    "FORTABLE":"ZETR_T_OGINV",
-    "FORKEY":"SERPR",
-    "FORSTRING":""
-   }
-  ]
- },
- {
-  "table":"DD08L",
-  "data":
-  [
-   {
-    "TABNAME":"ZETR_T_OGINV",
-    "FIELDNAME":"SERPR",
-    "AS4LOCAL":"N",
-    "AS4VERS":0,
-    "CHECKTABLE":"ZETR_T_EISER",
-    "FRKART":"",
-    "CLASFIELD":"",
-    "CLASVALUE":"",
-    "CARDLEFT":"",
-    "CARD":"",
-    "CHECKFLAG":"",
-    "ARBGB":"",
-    "MSGNR":"",
-    "NOINHERIT":""
-   }
-  ]
- },
- {
-  "table":"DD08T",
-  "data":
-  [
-   {
-    "TABNAME":"ZETR_T_OGINV",
-    "FIELDNAME":"SERPR",
-    "DDLANGUAGE":"E",
-    "AS4LOCAL":"N",
-    "AS4VERS":0,
-    "DDTEXT":"",
-    "MESTEXT":""
    }
   ]
  },
